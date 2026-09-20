@@ -1,0 +1,152 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Nouveau réveil",
+        "description": "Chaque réveil est indépendant et crée son propre appareil.",
+        "data": {
+          "name": "Nom",
+          "default_time": "Heure par défaut",
+          "lead_minutes": "Phase progressive (minutes)"
+        },
+        "data_description": {
+          "lead_minutes": "Délai entre l'événement reveil_pre_ring et l'heure du réveil. 0 pour désactiver."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Un réveil portant ce nom existe déjà."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Options du réveil",
+        "data": {
+          "lead_minutes": "Phase progressive (minutes)"
+        },
+        "data_description": {
+          "lead_minutes": "Délai entre l'événement reveil_pre_ring et l'heure du réveil. 0 pour désactiver."
+        }
+      }
+    }
+  },
+  "entity": {
+    "time": {
+      "default_time": {
+        "name": "Heure par défaut"
+      },
+      "time_monday": {
+        "name": "Heure du lundi"
+      },
+      "time_tuesday": {
+        "name": "Heure du mardi"
+      },
+      "time_wednesday": {
+        "name": "Heure du mercredi"
+      },
+      "time_thursday": {
+        "name": "Heure du jeudi"
+      },
+      "time_friday": {
+        "name": "Heure du vendredi"
+      },
+      "time_saturday": {
+        "name": "Heure du samedi"
+      },
+      "time_sunday": {
+        "name": "Heure du dimanche"
+      }
+    },
+    "switch": {
+      "enabled": {
+        "name": "Activé"
+      },
+      "day_monday": {
+        "name": "Actif le lundi"
+      },
+      "day_tuesday": {
+        "name": "Actif le mardi"
+      },
+      "day_wednesday": {
+        "name": "Actif le mercredi"
+      },
+      "day_thursday": {
+        "name": "Actif le jeudi"
+      },
+      "day_friday": {
+        "name": "Actif le vendredi"
+      },
+      "day_saturday": {
+        "name": "Actif le samedi"
+      },
+      "day_sunday": {
+        "name": "Actif le dimanche"
+      }
+    },
+    "sensor": {
+      "next_alarm": {
+        "name": "Prochain réveil"
+      },
+      "pre_ring_start": {
+        "name": "Début de la phase progressive"
+      },
+      "last_dismissed": {
+        "name": "Dernier réveil confirmé"
+      }
+    },
+    "binary_sensor": {
+      "rings_today": {
+        "name": "Sonne aujourd'hui"
+      }
+    },
+    "button": {
+      "dismiss": {
+        "name": "Je suis réveillé"
+      }
+    }
+  },
+  "selector": {
+    "day": {
+      "options": {
+        "monday": "lundi",
+        "tuesday": "mardi",
+        "wednesday": "mercredi",
+        "thursday": "jeudi",
+        "friday": "vendredi",
+        "saturday": "samedi",
+        "sunday": "dimanche"
+      }
+    }
+  },
+  "services": {
+    "set_time": {
+      "name": "Définir l'heure",
+      "description": "Définit l'heure par défaut, ou l'heure d'un jour précis. Un jour sans heure efface sa surcharge.",
+      "fields": {
+        "day": {
+          "name": "Jour",
+          "description": "Jour concerné (vide = heure par défaut)."
+        },
+        "time": {
+          "name": "Heure",
+          "description": "Nouvelle heure (vide avec un jour = effacer la surcharge)."
+        }
+      }
+    },
+    "set_days": {
+      "name": "Définir les jours actifs",
+      "description": "Active exactement les jours indiqués et désactive les autres.",
+      "fields": {
+        "days": {
+          "name": "Jours",
+          "description": "Jours où le réveil est actif."
+        }
+      }
+    },
+    "dismiss": {
+      "name": "Confirmer le réveil",
+      "description": "Émet l'événement reveil_dismissed avec le délai depuis la sonnerie."
+    }
+  }
+}

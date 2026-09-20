@@ -1,0 +1,152 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "New alarm",
+        "description": "Each alarm is independent and creates its own device.",
+        "data": {
+          "name": "Name",
+          "default_time": "Default time",
+          "lead_minutes": "Progressive phase (minutes)"
+        },
+        "data_description": {
+          "lead_minutes": "Delay between the reveil_pre_ring event and the alarm time. 0 to disable."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "An alarm with this name already exists."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Alarm options",
+        "data": {
+          "lead_minutes": "Progressive phase (minutes)"
+        },
+        "data_description": {
+          "lead_minutes": "Delay between the reveil_pre_ring event and the alarm time. 0 to disable."
+        }
+      }
+    }
+  },
+  "entity": {
+    "time": {
+      "default_time": {
+        "name": "Default time"
+      },
+      "time_monday": {
+        "name": "Monday time"
+      },
+      "time_tuesday": {
+        "name": "Tuesday time"
+      },
+      "time_wednesday": {
+        "name": "Wednesday time"
+      },
+      "time_thursday": {
+        "name": "Thursday time"
+      },
+      "time_friday": {
+        "name": "Friday time"
+      },
+      "time_saturday": {
+        "name": "Saturday time"
+      },
+      "time_sunday": {
+        "name": "Sunday time"
+      }
+    },
+    "switch": {
+      "enabled": {
+        "name": "Enabled"
+      },
+      "day_monday": {
+        "name": "Active on Monday"
+      },
+      "day_tuesday": {
+        "name": "Active on Tuesday"
+      },
+      "day_wednesday": {
+        "name": "Active on Wednesday"
+      },
+      "day_thursday": {
+        "name": "Active on Thursday"
+      },
+      "day_friday": {
+        "name": "Active on Friday"
+      },
+      "day_saturday": {
+        "name": "Active on Saturday"
+      },
+      "day_sunday": {
+        "name": "Active on Sunday"
+      }
+    },
+    "sensor": {
+      "next_alarm": {
+        "name": "Next alarm"
+      },
+      "pre_ring_start": {
+        "name": "Progressive phase start"
+      },
+      "last_dismissed": {
+        "name": "Last confirmed wake-up"
+      }
+    },
+    "binary_sensor": {
+      "rings_today": {
+        "name": "Rings today"
+      }
+    },
+    "button": {
+      "dismiss": {
+        "name": "I'm awake"
+      }
+    }
+  },
+  "selector": {
+    "day": {
+      "options": {
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "sunday": "Sunday"
+      }
+    }
+  },
+  "services": {
+    "set_time": {
+      "name": "Set time",
+      "description": "Sets the default time, or the time of a given day. A day without time clears its override.",
+      "fields": {
+        "day": {
+          "name": "Day",
+          "description": "Day concerned (empty = default time)."
+        },
+        "time": {
+          "name": "Time",
+          "description": "New time (empty with a day = clear the override)."
+        }
+      }
+    },
+    "set_days": {
+      "name": "Set active days",
+      "description": "Enables exactly the given days and disables the others.",
+      "fields": {
+        "days": {
+          "name": "Days",
+          "description": "Days on which the alarm is active."
+        }
+      }
+    },
+    "dismiss": {
+      "name": "Dismiss",
+      "description": "Fires the reveil_dismissed event with the delay since the ring."
+    }
+  }
+}

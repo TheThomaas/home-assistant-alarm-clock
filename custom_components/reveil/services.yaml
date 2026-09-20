@@ -1,0 +1,53 @@
+set_time:
+  target:
+    device:
+      integration: reveil
+    entity:
+      integration: reveil
+  fields:
+    day:
+      required: false
+      selector:
+        select:
+          translation_key: day
+          options:
+            - monday
+            - tuesday
+            - wednesday
+            - thursday
+            - friday
+            - saturday
+            - sunday
+    time:
+      required: false
+      selector:
+        time:
+
+set_days:
+  target:
+    device:
+      integration: reveil
+    entity:
+      integration: reveil
+  fields:
+    days:
+      required: true
+      selector:
+        select:
+          translation_key: day
+          multiple: true
+          options:
+            - monday
+            - tuesday
+            - wednesday
+            - thursday
+            - friday
+            - saturday
+            - sunday
+
+dismiss:
+  target:
+    device:
+      integration: reveil
+    entity:
+      integration: reveil

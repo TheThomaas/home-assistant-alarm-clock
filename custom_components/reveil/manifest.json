@@ -1,0 +1,12 @@
+{
+  "domain": "reveil",
+  "name": "Réveil",
+  "codeowners": [],
+  "config_flow": true,
+  "documentation": "https://git.thethomaas.net/TheThomaas/ha-alarm-clock",
+  "integration_type": "service",
+  "iot_class": "calculated",
+  "issue_tracker": "https://git.thethomaas.net/TheThomaas/ha-alarm-clock/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

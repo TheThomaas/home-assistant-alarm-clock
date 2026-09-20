@@ -1,0 +1,103 @@
+blueprint:
+  name: Réveil – lumière progressive et actions de sonnerie
+  description: >
+    Réagit aux événements d'un réveil de l'intégration « Réveil ».
+
+    - **Phase progressive** (`reveil_pre_ring`) : allume les lumières à faible
+      intensité puis les monte jusqu'à l'intensité cible, en durée exacte
+      jusqu'à l'heure du réveil.
+
+    - **Sonnerie** (`reveil_ring`) : exécute les actions de votre choix
+      (media_player, volets, café…).
+  domain: automation
+  source_url: https://git.thethomaas.net/TheThomaas/ha-alarm-clock/raw/branch/main/blueprints/wake_up.yaml
+  input:
+    alarm:
+      name: Réveil
+      description: L'appareil « Réveil » à écouter.
+      selector:
+        device:
+          filter:
+            - integration: reveil
+    lights:
+      name: Lumières
+      description: Lumières utilisées pour la phase progressive.
+      selector:
+        target:
+          entity:
+            domain: light
+    start_brightness:
+      name: Luminosité de départ
+      default: 1
+      selector:
+        number:
+          min: 1
+          max: 100
+          unit_of_measurement: "%"
+    end_brightness:
+      name: Luminosité à l'heure du réveil
+      default: 80
+      selector:
+        number:
+          min: 1
+          max: 100
+          unit_of_measurement: "%"
+    ring_action:
+      name: Actions à la sonnerie
+      description: >
+        Exécutées quand le réveil sonne. Laissez vide pour ne rien faire.
+      default: []
+      selector:
+        action: {}
+    presence_entity:
+      name: Entité de présence (facultatif)
+      description: >
+        Si renseignée, rien ne se passe quand cette entité n'est pas « on »
+        (ex. un capteur de présence ou un input_boolean « à la maison »).
+      default: ""
+      selector:
+        entity: {}
+
+mode: single
+max_exceeded: silent
+
+variables:
+  presence_entity: !input presence_entity
+
+triggers:
+  - trigger: event
+    event_type: reveil_pre_ring
+    event_data:
+      device_id: !input alarm
+    id: pre_ring
+  - trigger: event
+    event_type: reveil_ring
+    event_data:
+      device_id: !input alarm
+    id: ring
+
+conditions:
+  - condition: template
+    value_template: >
+      {{ presence_entity == '' or is_state(presence_entity, 'on') }}
+
+actions:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: pre_ring
+        sequence:
+          - action: light.turn_on
+            target: !input lights
+            data:
+              brightness_pct: !input start_brightness
+          - delay: 1
+          - action: light.turn_on
+            target: !input lights
+            data:
+              brightness_pct: !input end_brightness
+              transition: "{{ trigger.event.data.remaining_seconds | int(0) }}"
+      - conditions:
+          - condition: trigger
+            id: ring
+        sequence: !input ring_action

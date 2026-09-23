@@ -150,11 +150,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ReveilConfigEntry) -> bo
     await manager.async_load()
     entry.runtime_data = manager
 
-    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-
     manager.async_start()
     entry.async_on_unload(manager.async_stop)
-    entry.async_on_unload(entry.add_update_listener(_async_reload_on_update))
+
+    hass.data.setdefault(DOMAIN, {})
 
     if len(hass.data[DOMAIN]) == 1:
         www_path = Path(__file__).parent / "www"
@@ -163,6 +162,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ReveilConfigEntry) -> bo
         await hass.http.async_register_static_paths([
             StaticPathConfig(f"/api/{DOMAIN}/reveil-card.js", str(card_file), cache_headers=False)
         ])
+
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    entry.async_on_unload(entry.add_update_listener(_async_reload_on_update))
 
     return True
 

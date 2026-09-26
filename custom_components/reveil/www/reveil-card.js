@@ -294,11 +294,12 @@ class ReveilCard extends HTMLElement {
     return date.toLocaleTimeString(this._lang(), opts);
   }
 
-  _dayName(index, style) {
+  _dayName(index, style, firstLetter = false) {
     // 2024-01-01 est un lundi
-    const name = new Date(2024, 0, 1 + index).toLocaleDateString(this._lang(), {
+    let name = new Date(2024, 0, 1 + index).toLocaleDateString(this._lang(), {
       weekday: style,
     });
+    if (firstLetter) { name = name.charAt(0); }
     return capitalize(name.replace(/\.$/, ""));
   }
 
@@ -438,7 +439,7 @@ class ReveilCard extends HTMLElement {
       return `
         <div class="day ${active ? "on" : ""} ${override ? "ovr" : ""}">
           <button class="chip" data-action="toggle-day" data-day="${day}"
-            aria-pressed="${active}" aria-label="${esc(L.toggleDay(long))}">${esc(this._dayName(i, "short"))}</button>
+            aria-pressed="${active}" aria-label="${esc(L.toggleDay(long))}">${esc(this._dayName(i, "short", true))}</button>
           <button class="hhmm" data-action="edit-time" data-day="${day}"
             aria-expanded="${this._editing === day}" aria-label="${esc(L.editTime(long))}">${esc(this._fmt(effective))}</button>
         </div>`;

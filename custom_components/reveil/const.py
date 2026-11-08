@@ -43,6 +43,9 @@ ATTR_DAY = "day"
 ATTR_DAYS = "days"
 ATTR_TIME = "time"
 
+# Clé hass.data marquant l'enregistrement (unique) du chemin statique de la carte.
+DATA_CARD_PATH_REGISTERED = "card_path_registered"
+
 STORAGE_VERSION = 1
 
 # Un « dismiss » est rattaché à la dernière sonnerie si elle date de moins de 6 h

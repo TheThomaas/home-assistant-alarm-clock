@@ -23,6 +23,7 @@ from .const import (
     ATTR_DAY,
     ATTR_DAYS,
     ATTR_TIME,
+    DATA_CARD_PATH_REGISTERED,
     DAYS,
     DOMAIN,
     PLATFORMS,
@@ -153,15 +154,20 @@ async def async_setup_entry(hass: HomeAssistant, entry: ReveilConfigEntry) -> bo
     manager.async_start()
     entry.async_on_unload(manager.async_stop)
 
-    hass.data.setdefault(DOMAIN, {})
-
-    if len(hass.data[DOMAIN]) == 1:
+    # Le chemin statique de la carte est global au domaine : il doit être
+    # enregistré une seule fois par instance de Home Assistant. S'appuyer sur
+    # la taille de hass.data[DOMAIN] ne marchait pas (le dict n'y était jamais
+    # alimenté, donc la condition restait fausse et la carte répondait 404),
+    # et un compteur d'entrées repasserait à 1 après un unload — aiohttp
+    # refuse alors la seconde déclaration de la route.
+    if not hass.data.get(DATA_CARD_PATH_REGISTERED):
         www_path = Path(__file__).parent / "www"
         card_file = www_path / "reveil-card.js"
 
         await hass.http.async_register_static_paths([
             StaticPathConfig(f"/api/{DOMAIN}/reveil-card.js", str(card_file), cache_headers=False)
         ])
+        hass.data[DATA_CARD_PATH_REGISTERED] = True
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     entry.async_on_unload(entry.add_update_listener(_async_reload_on_update))

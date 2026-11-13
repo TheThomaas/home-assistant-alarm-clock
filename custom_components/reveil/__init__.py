@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
-import voluptuous as vol
+import logging
 from pathlib import Path
+
+import voluptuous as vol
 
 from homeassistant.config_entries import ConfigEntry, ConfigEntryState
 from homeassistant.components.http import StaticPathConfig
@@ -35,6 +37,8 @@ from .const import (
 from .manager import ReveilConfigEntry, ReveilManager
 
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+
+_LOGGER = logging.getLogger(__name__)
 
 _TARGET_FIELDS = {
     vol.Optional(ATTR_DEVICE_ID): vol.All(cv.ensure_list, [cv.string]),

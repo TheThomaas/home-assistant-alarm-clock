@@ -199,5 +199,19 @@ cards:
 
 ## Tests
 
-La logique de calcul du prochain réveil (`schedule.py`) n'a aucune dépendance
-à Home Assistant et est testée par `python tests/test_schedule.py`.
+`pytest` couvre la logique de calcul du prochain réveil (`schedule.py`), qui n'a
+aucune dépendance à Home Assistant : la suite tourne donc sans HA installé.
+
+```bash
+pip install pytest ruff
+pytest
+ruff check .
+```
+
+Périmètre assumé : `schedule.py` uniquement. Le config flow, le coordinator et
+l'enregistrement du chemin statique de la carte demandent `pytest-homeassistant-custom-component`
+(et donc une version de HA épinglée) — volontairement hors périmètre pour l'instant.
+
+Le workflow `.forgejo/workflows/tests.yml` exécute lint + tests sur chaque PR et
+sur `main`.
+
